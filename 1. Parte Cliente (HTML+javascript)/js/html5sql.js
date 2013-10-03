@@ -29,7 +29,6 @@ var html5sql = (function () {
 	    isSelectStmt = function (sqlstring) {
 			return SelectStmtMatch.test(sqlstring);
 		},
-		doNothing = function(){},
 		// transaction is an sql transaction, sqlObjects are properly formated
 		// and cleaned SQL objects
 		sqlProcessor = function (transaction, sqlObjects, finalSuccess, failure) {
