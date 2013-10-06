@@ -91,8 +91,8 @@ var database = null
 						};
 				var ObResultados;
 				return {
-							ObtenerResultados : function(results){
-								ObResultados = results
+							ObtenerResultados : function(EvObResults){
+								ObResultados = EvObResults;
 								}/* evento function(results) */
 						,	SqlError : function (transaction, error){
 								if (error.code==1){
@@ -102,14 +102,24 @@ var database = null
 									console.log('Error: '+error.message+'\nCode: '+error.code);
 								}
 								if(!isUndefined(ObResultados))
-									ObResultados(null);
+									ObResultados(false, null, null);
 									
 								return false;
 							}
 						,	SqlExito : function (transaction, results){
 								console.log("Consulta SQL ejecutada con éxito");
-								if(!isUndefined(ObResultados))
-									ObResultados(results);
+								if(!isUndefined(ObResultados)){
+									var bExito = true
+									, 	rowsArray = [];
+									if(results.rows.length > 0){
+										for(var i = 0; i<results.rows.length;i++){
+											rowsArray[i] = new Array();
+											for(key in results.rows.item(i))
+												rowsArray[i].push(results.rows.item(i)[key]);
+										}
+									}	
+									ObResultados(bExito, results, rowsArray);
+								}
 							}
 					}
 	}
@@ -144,10 +154,10 @@ var database = null
 	}
 , 	ObNuevoId = function(/*arrTabalas*/ oTabla, /* Evento de Obtener nuevo Id */ EvObtenerNuevoId){
 			ExecSQL('SELECT COALESCE(MAX('+oTabla.Indice+'),0)+1 AS Cantidad FROM ' + oTabla.Tabla+';'
-					, function(results){
+					, function(bExito, results, rowsArray){
 						if(!isUndefined(EvObtenerNuevoId))
-							if(results != null && results.rows.length > 0)
-								EvObtenerNuevoId(results.rows.item(0).Cantidad);
+							if(bExito)
+								EvObtenerNuevoId(rowsArray[0][0]);
 							else
 								EvObtenerNuevoId(0);
 						}

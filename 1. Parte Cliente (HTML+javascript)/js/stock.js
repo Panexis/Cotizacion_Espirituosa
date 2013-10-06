@@ -14,7 +14,12 @@ var stock = (function(){
 		}
 	,	AnadirGrupoBebidas : function(Nombre){
 			db.Grupo_Bebidas.ObtenerNuevoId(function(id){
-				db.EjecutarSQL("INSERT INTO " + db.Tablas[Grupo_Bebidas].Tabla + " VALUES("+id+",'"+Nombre+"')");
+				db.EjecutarSQL("INSERT INTO " + db.Tablas[Grupo_Bebidas].Tabla + " VALUES("+id+",'"+Nombre+"')"
+				, function(bExito){
+					if(!bExito){
+						alert('No se ha podido añadir el grupo de bebidas,\n comprueba que no esté ya en la lista.');
+					}
+				});
 			});
 		}
 	,	ModificarGrupoBebidas : function(idGrupoBebida, Nombre){
