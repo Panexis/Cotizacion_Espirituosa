@@ -25,10 +25,13 @@
 			,   data : cmdSQL
 			,	succes : AjaxExito
 			,	error : AjaxError
+			,   beforesend : AjaxEsperando
 			)};
 	,   AjaxExito = function(data, textStatus, jqXHR){
 		}
 	,	AjaxError = function(jqXHR, textStatus, errorThrown){
+		}
+	,	AjaxEsperando = function(){
 		}
 	;
 	return {
