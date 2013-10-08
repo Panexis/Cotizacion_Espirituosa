@@ -1,0 +1,84 @@
+/*
+	Nuevo css
+	
+	*/
+.mitabla {
+	
+	/*padding: 2px;*/
+	line-height: 10px;
+	text-align: left;
+	vertical-align: middle;
+	min-width: 710px;
+}
+.mitabla caption{
+	text-align:left;
+	font-size: 14pt;
+	padding: 10px;
+	border-bottom: 1px solid #dddddd;
+	margin: 10px;
+}
+
+.mitabla td {
+	padding: 5px;
+	padding-bottom:0px;
+	border-bottom: 1px solid #dddddd;
+	
+}
+.mitabla .boton{
+	vertical-align: top;
+	padding-top: 4px;
+}
+
+.mitabla thead{
+	text-align: center;
+}
+.mitabla tfoot{
+	text-align: right;
+}
+.mitabla tfoot td{
+	border: 0;
+}
+
+.in_tabla{
+	line-height: 10px;
+	text-align: left;
+	vertical-align: middle;
+	font-size: 10pt;
+	border: 1px solid #dddddd;
+	border-top:0;
+	margin:0;
+	padding: 2px;
+	-webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+.in_tabla caption{
+	font-size: 12pt;
+	cursor:pointer;
+	cursor:hand;
+	border: 1px solid #dddddd;
+	border-bottom:0;
+	-webkit-border-top-left-radius: 4px;
+	-webkit-border-top-right-radius: 4px;
+	-moz-border-radius-topleft: 4px;
+	-moz-border-radius-topright: 4px;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	margin: 0px;
+	padding: 20px;
+	
+}
+
+.in_tabla thead{display: none;}
+.in_tabla tbody{display:none;}
+
+
+.numerico{
+	text-align: right;
+}
+
+h1{
+	text-align: center;
+}
+.tab-pane{
+min-height: 425px;}

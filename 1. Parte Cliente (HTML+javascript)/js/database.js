@@ -3,14 +3,6 @@ Objeto Base de datos
 Al crear este objeto a la base de datos de nuestro programa
 Autor Jose Angel Navarro
 */
-const 	Grupo_Bebidas = 0
-,		Bebidas = 1
-,		Tipo_Servicios = 2
-,		Servicios = 3
-,		Bebidas_Servicios = 4
-,		Precios = 5
-,		Propiedades = 6;
-
 var db = (function() {
 
 var database = null	
@@ -28,8 +20,8 @@ var database = null
 												, 	Cantidad_Botella NUMERIC(5,0) NOT NULL	\
 												, 	Cantidad_Stock NUMERIC(10,0) NULL	\
 												);' }
-				, {Tabla : 'Tipo_Servicios', Indice : 'Id_T_Servicio'
-									, CreacionTabla : 'CREATE TABLE IF NOT EXISTS Tipo_Servicios (	\
+				, {Tabla : 'Tipos_Servicio', Indice : 'Id_T_Servicio'
+									, CreacionTabla : 'CREATE TABLE IF NOT EXISTS Tipos_Servicio (	\
 															Id_T_Servicio NUMERIC(3,0) PRIMARY KEY	\
 														,	Nombre VARCHAR(150) UNIQUE	\
 														,	Cantidad NUMERIC(5,0) NOT NULL	\
@@ -38,7 +30,7 @@ var database = null
 								, CreacionTabla : 'CREATE TABLE IF NOT EXISTS Servicios (	\
 														Id_Servicio NUMERIC(15,0) PRIMARY KEY	\
 													,	Id_T_Servicio NUMERIC(3,0) REFERENCES 	\
-														Tipo_Servicios (Id_T_Servicio) ON DELETE SET NULL	\
+														Tipos_Servicio (Id_T_Servicio) ON DELETE SET NULL	\
 													, 	Fecha DATETIME NOT NULL	\
 													);' }
 				, {Tabla : 'Bebidas_Servicios', Indice : 'CONVERT(VARCHAR,Id_Servicio)+CONVERT(VARCHAR,Id_Bebida)'
@@ -63,7 +55,7 @@ var database = null
 												, 	FOREIGN KEY (Id_G_Bebidas) REFERENCES	\
 														Grupo_Bebidas(Id_G_Bebidas) ON DELETE CASCADE	\
 												, 	FOREIGN KEY (Id_T_Servicio) REFERENCES	\
-														Tipo_Servicios(Id_T_Servicio) ON DELETE CASCADE	\
+														Tipos_Servicio(Id_T_Servicio) ON DELETE CASCADE	\
 												);'}
 				, {Tabla : 'Propiedades', Indice : 'Nombre'
 									, CreacionTabla: 'CREATE TABLE IF NOT EXISTS  Propiedades \
@@ -81,14 +73,7 @@ var database = null
 	, 	"INSERT INTO Propiedades VALUES('Cantidad_Stock', '5000');" 
 	,	"INSERT INTO Propiedades VALUES('ServidorPHP', 'http://localhost/cotizacion_espirituosa');"
 	]
-, 	isUndefined = function(obj) { 
-						return obj === void 0;
-						}
 ,   Resultado = function(){/* variable a utilizar para registrar los datos */
-				
-				var isUndefined = function(obj) { 
-						return obj === void 0;
-						};
 				var ObResultados;
 				return {
 							ObtenerResultados : function(EvObResults){
@@ -118,7 +103,7 @@ var database = null
 												rowsArray[i].push(results.rows.item(i)[key]);
 										}
 									}	
-									ObResultados(bExito, results, rowsArray);
+									ObResultados(bExito, rowsArray, results);
 								}
 							}
 					}
@@ -142,7 +127,7 @@ var database = null
 		if(!database){
 			console.log('Error: no se ha cargado ninguna base de datos');
 			if(!isUndefined(EvObtenerResultados))
-				EvObtenerResultados(null);
+				EvObtenerResultados(false, null, null);
 			return;
 		}
 
@@ -154,7 +139,7 @@ var database = null
 	}
 , 	ObNuevoId = function(/*arrTabalas*/ oTabla, /* Evento de Obtener nuevo Id */ EvObtenerNuevoId){
 			ExecSQL('SELECT COALESCE(MAX('+oTabla.Indice+'),0)+1 AS Cantidad FROM ' + oTabla.Tabla+';'
-					, function(bExito, results, rowsArray){
+					, function(bExito, rowsArray){
 						if(!isUndefined(EvObtenerNuevoId))
 							if(bExito)
 								EvObtenerNuevoId(rowsArray[0][0]);
@@ -205,12 +190,12 @@ var database = null
 									ObNuevoId(arrTablas[Bebidas], EvObtenerId);
 								}			
 							}
-		,	Tipo_Servicios : { 
+		,	Tipos_Servicio : { 
 								ObtenerDatosTabla : function(EvObtenerResultados){
-									ObDatosTabla(arrTablas[Tipo_Servicios], EvObtenerResultados);
+									ObDatosTabla(arrTablas[Tipos_Servicio], EvObtenerResultados);
 								}
 							,	ObtenerNuevoId : function(EvObtenerId){
-									ObNuevoId(arrTablas[Tipo_Servicios], EvObtenerId);
+									ObNuevoId(arrTablas[Tipos_Servicio], EvObtenerId);
 								}			
 							}
 		,	Servicios : { 
@@ -241,5 +226,3 @@ var database = null
 	}
 	
 })();
-
-db.CrearBaseDeDatos();

@@ -1,38 +1,141 @@
+<!DOCTYPE html>
 <html>
 <head>
 <title>Cotizaci&oacute;n Espirituosa</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="./css/themes/default/jquery.mobile-1.3.2.css" 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="./css/bootstrap.css" rel="stylesheet" media="screen">
+<link href="./css/bootstrap-responsive.css" rel="stylesheet">
+<link href="./css/cotizacion_espirituosa.css" rel="stylesheet">
 
 <!-- scripts -->
 	<script src="./js/jquery.js" type="text/javascript"></script>
-	<script src="./js/jquery.mobile-1.3.2.js" type="text/javascript"></script>
+	<script src="./js/bootstrap.js" type="text/javascript"></script>
 	<script src="./js/database.js" type="text/javascript" charset="utf-8"></script>
+	<script src="./js/util.js" type="text/javascript" charset="utf-8"></script>
 	<script src="./js/stock.js" type="text/javascript" charset="utf-8"></script>
-	<script src="./js/servicio.js" type="text/javascript" charset="utf-8"></script>
+	<script src="./js/servicios.js" type="text/javascript" charset="utf-8"></script>
 	<script src="./js/cotizacion.js" type="text/javascript" charset="utf-8"></script>
 	<script src="./js/servidor.js" type="text/javascript" charset="utf-8"></script>
+	<script src="./js/eventos.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body >
-<script type="text/javascript">
-	stock.AnadirGrupoBebidas('vodka');
-</script>
-<div data-role="page">
-<div id="capaStock" data-role="panel" data-position="rigth" >Esto es un panel</div>
-<div id="capaServicios" data-role="panel" data-position="rigth"></div>
-<div id="CapaConfiguracion"data-role="panel" data-position="rigth"></div>
-<div data-role="header" data-theme="b"><h1>Cotizaci&oacute;n Espirituosa</div>
-<div data-role="content" data-theme="b"style="text-align: center; ;">
-<div id="Menu" data-role="controlgroup" style="min-height:500px;width:350px; margin: 5px; background-color: RGB(58,108,159);" >
-<div class="MenuItem " id="mIGestionStock" data-role="button" data-theme="b" data-icon="home" >Gestionar Stock</div>
-<div class="MenuItem " id="mIIniciarSesion" data-role="button" data-theme="b" data-icon="check">Iniciar Sesión de Cotización</div>
-<div class="MenuItem " id="mIConfiguracion" data-role="button" data-theme="b" data-icon="gear"> Configuraci&oacute;n</div>
-</div>
-<div data-role="footer" data-theme="b">
-<div style="text-align:right;font-size:8pt">
-<div style="width:auto;margin:2px;">Jos&eacute; &Aacute;ngel Navarro</div>
-<div style="width:auto;margin:2px;">Borja Donate</div>
-</div>
-</div>
+	<div >
+		<div class="page-header">
+			<h1>Cotizaci&oacute;n Espirituosa</h1>
+		</div>
+		<div class="container row-fluid">
+			<div id="Menu" class="span3">
+				<ul class="nav nav-list">
+					<li class="active"><a href="#"><i class="icon-pencil" ></i>Configuraci&oacute;n</a></li>
+					<li><a href="#"><i class="icon-tasks"></i> Gestionar Stock</a></li>
+					<li><a href="#"><i class="icon-play"></i> Iniciar Sesión de Cotización</a></li>
+				</ul>
+			</div>
+			<div id="PanelPrincipal" class="span9 tabbable" >
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#tabPropiedades" data-toggle="tab">Propiedades</a></li>
+					<li><a href="#tabTiposServicio" data-toggle="tab">Tipos de Servicio</a></li>
+					<li><a href="#tabBebidas" data-toggle="tab">Bebidas</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="tabPropiedades">
+					<table class="mitabla" >
+					<caption>Propiedades por defecto</caption>
+					<tbody>
+						<tr>
+							<td  >
+								<label  for="Id_ServidorPHP">Servidor PHP</label>
+							</td>
+							<td  colspan="3">
+								<input type="text" name="Id_ServidorPHP" id="Id_ServidorPHP" class="tabla_Propiedades input-xlarge" value="" />
+							</td>
+						</tr>
+							<td>
+								<label  for="Id_Precio">Precio</label>
+							</td>
+							<td>
+								<input type="text" name="Id_Precio" id="Id_Precio" class="tabla_Propiedades  input-mini numerico" value="" />
+							</td>
+							<td>
+								<label for="Id_Maximo">Maximo</label>
+							</td>
+							<td>
+								<input type="text" name="Id_Maximo" id="Id_Maximo" class="tabla_Propiedades input-mini numerico" value="" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label  for="Id_Minimo">Minimo</label>
+							</td>
+							<td>
+								<input type="text" name="Id_Minimo" id="Id_Minimo" class="tabla_Propiedades input-mini numerico" value="" />
+							</td>
+							<td>
+								<label for="Id_Tramo">Tramo</label>
+							</td>
+							<td>
+								<input type="text" name="Id_Tramo" id="Id_Tramo" class="tabla_Propiedades input-mini numerico" value="" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label for="Id_Cantidad_Botella">ml en cada botella</label>
+							</td>
+							<td>
+								<input type="text" name="Id_Cantidad_Botella" id="Id_Cantidad_Botella" class="tabla_Propiedades input-mini numerico" value="" /> 
+							</td>
+							<td>
+								<label for="Id_Cantidad_Stock">ml en stock</label>
+							</td>
+							<td>
+								<input type="text" name="Id_Cantidad_Stock" id="Id_Cantidad_Stock" class="tabla_Propiedades input-mini numerico" value="" /> 
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td  colspan="4">
+								<a class="btn" id="ActualizarPreferencias" href="#"><i class="icon-refresh"></i> Actualizar</a>
+							</td>
+						</tr>
+					</tfoot>
+					</table>
+					</div>
+					<div class="tab-pane" id="tabTiposServicio">
+						<table class="mitabla"  >
+						<caption>Tipos de servicios</caption>
+						<thead>
+							<th >Nombre</th>
+							<th>ml</th>
+							<th>Precio</th>
+							<th>M&aacute;ximo</th>
+							<th>M&iacute;nimo</th>
+							<th>Tramo</th>
+						</thead>
+						<tbody id="tabla_Tipos_Servicio">
+						</tbody>
+						</table>
+					</div>
+					<div class="tab-pane" id="tabBebidas">
+						<table class="mitabla" >
+						<caption>Grupos de Bebidas</caption>
+						<thead>
+							<th >Nombre</th>
+						</thead>
+						<tbody id="tabla_Grupos_Bebida">
+						</tbody>
+						</table>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<div >
+			<div >
+				<div >Jos&eacute; &Aacute;ngel Navarro</div>
+				<div  >Borja Donate</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
