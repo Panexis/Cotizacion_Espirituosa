@@ -6,8 +6,12 @@ Eventos de las aplicaciones
 $(function(){
 	db.CrearBaseDeDatos();
 	MostrarOpcionesxDefecto();
-	MostrarTiposServicio();
 	MostrarGruposBebida();
+	MostrarTiposServicio();
+	
+	
+	$(".in_tabla thead").hide();
+	$(".in_tabla tbody").hide();
 	
 	//al hacer click en actualizapreferencias
 	$("#ActualizarPreferencias").click(function(){

@@ -30,6 +30,7 @@ function MostrarTiposServicio(){
 				return;
 			}
 			$("#tabla_Tipos_Servicio").html("");
+			$(".Select_Tipos_Servicio").html("");
 			for(var i = 0; i < rowsArray.length; i++){
 				//vamos a rellenar la tabla de tipos de servicios
 				$("#tabla_Tipos_Servicio").append('<tr> '+
@@ -43,7 +44,8 @@ function MostrarTiposServicio(){
 							'</tr>  '
 							);
 				//añadir los elementos del selector
-				$(".Select_Tipos_Servicio").append('<option value="'+rowsArray[i][0]+'"'
+				
+				$(".Select_Tipos_Servicio").append('<option value="'+rowsArray[i][0]+'" ' + (rowsArray[i][0] == $(".Select_Tipos_Servicio").attr("name") ? "selected=selected" : "") +" >"+rowsArray[i][1]+"</option>");
 				
 			}
 			$("#tabla_Tipos_Servicio").append('<tr> '+  
@@ -155,6 +157,9 @@ function MostrarGruposBebida(){
 		}
 		$("#tabla_Grupos_Bebida").append('<tr><td><input type="text" name="NuevoServicio" id="Id_NuevoGBNombre" value=""></td> ' +
 			'<td class="boton" ><a class="btn AddGB" href="#"><i class="icon-plus"></i> </a></td> </tr>');
+			
+		//voy a volver a cargar los tipos de servicio para cargar lo select optiosn
+		MostrarTiposServicio();
 	});
 }
 
