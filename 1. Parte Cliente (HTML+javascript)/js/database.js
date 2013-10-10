@@ -191,7 +191,7 @@ var database = null
 		, 	ReiniciarBaseDeDatos : function (EvResultado){
 				BorrarTablas( function(bExito, Mensaje){
 					if(bExito){
-						crearTablas();
+						CrearTablas();
 					}
 					if(!isUndefined(EvResultado))
 						EvResultado(bExito, Mensaje);
