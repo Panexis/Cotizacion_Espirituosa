@@ -1,9 +1,9 @@
-/* ***** servidor.js ******
+Ôªø/* ***** servidor.js ******
  *
- * DescripciÛn: Se va a generar las llamadas asÌncronax para registrar los datos en el servidor
+ * Descripci√≥n: Se va a generar las llamadas as√≠ncronax para registrar los datos en el servidor
  * 
  *
- * Autor: JosÈ ¡ngel Navarro
+ * Autor: Jos√© √Ångel Navarro
  *
  *
  * 

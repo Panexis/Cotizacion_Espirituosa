@@ -1,11 +1,11 @@
-/*
+﻿/*
 cotizacion.js
 */
 
 cotizacion = (function(){
 	
 	return {
-		//lo mismo que calcular cotizaci�n
+		//lo mismo que calcular cotización
 		MostrarPreciosIniciales : function(){
 
 		}

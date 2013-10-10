@@ -1,4 +1,4 @@
-/*
+﻿/*
 Objeto Base de datos 
 Al crear este objeto a la base de datos de nuestro programa
 Autor Jose Angel Navarro
@@ -92,7 +92,7 @@ var database = null
 								return false;
 							}
 						,	SqlExito : function (transaction, results){
-								console.log("Consulta SQL ejecutada con �xito");
+								console.log("Consulta SQL ejecutada con éxito");
 								if(!isUndefined(ObResultados)){
 									var bExito = true
 									, 	rowsArray = [];

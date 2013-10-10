@@ -1,4 +1,4 @@
-/*
+﻿/*
 global.js
 funciones globales para todo el programa
 

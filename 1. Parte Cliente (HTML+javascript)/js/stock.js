@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 stock.js
 
 objeto donde se gestiona el stock
@@ -133,7 +133,7 @@ var stock = (function(){
 						
 						var CantidadXBotella = parseInt(rowsArray[0][0]);
 						var Cantidad = CantidadBotellas * CantidadXBotella;
-						//ahora hay que añadir la cantidad parcial 
+						//ahora hay que aÃ±adir la cantidad parcial 
 						if(cantidadParcialBotella != null){
 							switch(parseInt(CantidadParcialBotella)){
 								case 0:
@@ -152,7 +152,7 @@ var stock = (function(){
 									Cantidad += CantidadXBotella * (3/4);
 							}
 						}
-						//añadimos en la base de datos los datos pertinente
+						//aÃ±adimos en la base de datos los datos pertinente
 						db.EjecutarSQL("UPDATE Bebidas SET Cantidad_Stock = "+Cantidad+" WHERE Id_Bebida = " + idBebida +";"
 							, function(bExito){
 								if(!bExito){

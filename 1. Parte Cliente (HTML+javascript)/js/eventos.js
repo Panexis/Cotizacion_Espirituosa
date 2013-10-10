@@ -1,8 +1,8 @@
-/*
+Ôªø/*
 Eventos de las aplicaciones
 
 */
-//al cargar la p·gina
+//al cargar la p√°gina
 $(function(){
 	db.CrearBaseDeDatos();
 	MostrarOpcionesxDefecto();
@@ -22,7 +22,7 @@ $(function(){
 			});
 		var UpdateRecursivo = function(bExito){
 			if(!bExito){
-				alert("No se ha podido actualizar,\npor favor, pruebe m·s tarde");
+				alert("No se ha podido actualizar,\npor favor, pruebe m√°s tarde");
 				return;
 			}
 			secuencia++;

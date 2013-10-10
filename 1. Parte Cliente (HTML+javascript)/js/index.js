@@ -1,4 +1,4 @@
-
+ï»¿
 //Incluir los javascripts de los que dependo
 document.write(
 	'<script src="./js/global.js" type="text/javascript"></script>'+
@@ -49,7 +49,7 @@ function MostrarTiposServicio(){
 								'<td class="boton" ><a class="btn" onClick="ModificarTiposServicios('+ArrayTiposServicio[i][0]+')"  href="javascript:void(0)"><i class="icon-refresh"></i> </a><a class="btn" onClick="EliminarTipoServicio('+ArrayTiposServicio[i][0]+')" href="javascript:void(0)"><i class="icon-minus"></i> </a></td> '+
 							'</tr>  '
 							);
-				//añadir los elementos del selector
+				//aÃ±adir los elementos del selector
 				
 				$(".Select_Tipos_Servicio").append('<option value="'+ArrayTiposServicio[i][0]+'" ' + (ArrayTiposServicio[i][0] == $(".Select_Tipos_Servicio").attr("name") ? "selected=selected" : "") +" >"+ArrayTiposServicio[i][1]+"</option>");
 				
@@ -92,15 +92,15 @@ function AnadirNuevoTipoServicio(){
 		return;
 	}
 	
-	//debo añadir el tipo de servicio
+	//debo aÃ±adir el tipo de servicio
 	servicios.AnadirTiposServicio($("#Id_NuevoTS_Nombre").val(), $("#Id_NuevoTS_Cantidad").val()
 	, function(bExito, idTipoServicio){
 		if(!bExito){
 			//
-			alert("No se ha podido añadir este tipo de servicio");
+			alert("No se ha podido aÃ±adir este tipo de servicio");
 			return;
 		}
-		//Ha añadido cotización inicial de este tipo de servicio?
+		//Ha aÃ±adido cotizaciÃ³n inicial de este tipo de servicio?
 		if($("#Id_NuevoTS_Precio").val() != null)
 			cotizacion.AnadirPrecioxTipoServicio(idTipoServicio, $("#Id_NuevoTS_Precio").val(), $("#Id_NuevoTS_Maximo").val(), $("#Id_NuevoTS_Minimo").val(), $("#Id_NuevoTS_Tramo").val()
 			,	function (bExito){
@@ -168,7 +168,7 @@ function MostrarGruposBebida(){
 			return;
 		}
 		ArrayGruposBebida = rowsArray;
-		//debo añadir el grupo de bebidas que he recibido por el ArrayGruposBebida
+		//debo aÃ±adir el grupo de bebidas que he recibido por el ArrayGruposBebida
 		$("#tabla_Grupos_Bebida").html("");
 		for(var i = 0; i<ArrayGruposBebida.length; i++){
 			$("#tabla_Grupos_Bebida").append(
@@ -191,7 +191,8 @@ function MostrarGruposBebida(){
 				'<!--<caption onClick="mostrarOcultarBebida('+ArrayGruposBebida[i].idGrupoBebida+')" > <i class="icon-chevron-down" id="i_HBebidas_'+ArrayGruposBebida[i].idGrupoBebida+'"> </i>Bebidas</caption>--!>'+
 				'<thead id="Id_HBebidas_'+ArrayGruposBebida[i].idGrupoBebida+'"><tr><th>Nombre</th><th>ml/Botella</th><th></th></tr></thead><tbody id="Sub_Tabla_Bebidas_'+ArrayGruposBebida[i].idGrupoBebida+'"></tbody></table></td></tr>'
 			);
-			//debo añadir una tabla con los tipos de servicios
+			//debo aÃ±adir una tabla con los tipos de servicios
+			alert(ArrayGruposBebida[i]);
 			MostrarPreciosGruposBebida(ArrayGruposBebida[i]);
 			MostrarBebidasGruposBebida(ArrayGruposBebida[i]);
 		}
@@ -260,14 +261,14 @@ function AnadirGrupoBebida(){
 	stock.AnadirGrupoBebida($("#Id_NuevoGB_Nombre").val()
 		, function(bExito,id){
 			if(bExito){
-				//Añadir al array de grupo de bebidas un nuevo objeto a listar 
+				//AÃ±adir al array de grupo de bebidas un nuevo objeto a listar 
 				var i = ArrayGruposBebida.length;
 				ArrayGruposBebida[i] = stock.CrearCGrupoBebida();
 				ArrayGruposBebida[i].idGrupoBebida = id;
 				ArrayGruposBebida[i].Nombre = $("#Id_NuevoGB_Nombre").val();
 				//Eliminar esta fila
 				$("#tabla_Grupos_Bebida tr:last").remove();
-				//añadir una nueva fila con nuestros resultados
+				//aÃ±adir una nueva fila con nuestros resultados
 				$("#tabla_Grupos_Bebida").append(
 					'<tr id="TR_'+ArrayGruposBebida[i].idGrupoBebida+'"> '+
 					'	<td><input type="text" id="Id_'+ArrayGruposBebida[i].idGrupoBebida+'_Nombre" value="'+ArrayGruposBebida[i].Nombre+'" class="input-block-level"></td>'+
@@ -294,7 +295,7 @@ function AnadirGrupoBebida(){
 					'<td class="boton" ><a class="btn AddGB" onClick="AnadirGrupoBebida()" href="javascript:void(0)"><i class="icon-plus"></i> </a></td> </tr>');
 				}
 			else
-				alert("No se ha podido realizar esta operación");
+				alert("No se ha podido realizar esta operaciÃ³n");
 		});
 }
 
@@ -302,7 +303,7 @@ function ModificarGrupoBebida(idGrupoBebida){
 	stock.ModificarGrupoBebida(idGrupoBebida, $("Id_'"+idGrupoBebida+"_Nombre").val()
 		, function(bExito){
 			if(!bExito)
-				alert("No se ha podido realizar la modificación");
+				alert("No se ha podido realizar la modificaciÃ³n");
 		});
 }
 
@@ -310,7 +311,7 @@ function EliminarGrupoBebida(idGrupoBebida){
 	stock.QuitarGrupoBebida(idGrupoBebida
 		, function(bExito){
 			if(!bExito){
-				alert("No se ha podido realizar la operación");
+				alert("No se ha podido realizar la operaciÃ³n");
 				return;
 			}
 			$("#TR_"+idGrupoBebida).remove();
@@ -338,13 +339,13 @@ function AnadirTSGB(idGrupoBebida){
 		return;
 	}
 	
-	//añadimos la cotizacion
+	//aÃ±adimos la cotizacion
 	cotizacion.AnadirPrecio(idGrupoBebida, $("#Id_TS_ID_"+idGrupoBebida).val(), $("#Id_TS_Precio_"+idGrupoBebida).val(),$("#Id_TS_Maximo_"+idGrupoBebida).val(),$("#Id_TS_Minimo_"+idGrupoBebida).val(),$("#Id_TS_Tramo_"+idGrupoBebida).val()
 		, function(bExito){
 			if(bExito)
 				MostrarPreciosGruposBebida(obtGrupoBebida(idGrupoBebida));
 			else
-				alert("No se ha podido realizar esta operación");
+				alert("No se ha podido realizar esta operaciÃ³n");
 		});
 
 }
@@ -358,7 +359,7 @@ function ModificarTSGB(idGrupoBebida, idTipoServicio){
 	cotizacion.ModificarPrecioxGrupoBebida(idGrupoBebida, idTipoServicio, $("#Id_"+idGrupoBebida+"_"+idTipoServicio+"_Nombre").val(),$("#Id_"+idGrupoBebida+"_"+idTipoServicio+"_Precio").val(), $("#Id_"+idGrupoBebida+"_"+idTipoServicio+"_Maximo").val(), $("#Id_"+idGrupoBebida+"_"+idTipoServicio+"_Minimo").val(), $("#Id_"+idGrupoBebida+"_"+idTipoServicio+"_Tramo").val()
 		, function(bExito){
 			if(!bExito){
-				alert("No se ha podido realizar la modificación");
+				alert("No se ha podido realizar la modificaciÃ³n");
 				return;
 			}
 			
@@ -391,7 +392,7 @@ function AnadirBebida(idGrupoBebida){
 			if(bExito)
 				MostrarBebidasGruposBebida(obtGrupoBebida(idGrupoBebida));
 			else
-				alert("No se ha podido realizar esta operación");
+				alert("No se ha podido realizar esta operaciÃ³n");
 
 		});
 }
@@ -407,7 +408,7 @@ function ModificarBebida(idGrupoBebida, idBebida){
 			if(bExito)
 				MostrarBebidasGruposBebida(obtGrupoBebida(idGrupoBebida));
 			else
-				alert("No se ha podido realizar esta operación");
+				alert("No se ha podido realizar esta operaciÃ³n");
 		});
 }
 
@@ -418,7 +419,7 @@ function EliminarBebida(idGrupoBebida, idBebida){
 			if(bExito)
 				MostrarBebidasGruposBebida(obtGrupoBebida(idGrupoBebida));
 			else
-				alert("No se ha podido realizar esta operación");
+				alert("No se ha podido realizar esta operaciÃ³n");
 		});
 }
 

@@ -1,6 +1,6 @@
-/*
+﻿/*
 servicios.js
-Objeto por el cual se registrara�n los servicios que se hagan
+Objeto por el cual se registraraán los servicios que se hagan
 */
 
 var servicios = (function(){
