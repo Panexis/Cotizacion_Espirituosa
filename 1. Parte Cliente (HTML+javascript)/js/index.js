@@ -334,7 +334,7 @@ function AnadirTSGB(idGrupoBebida){
 		alert("Debe seleccionar un tipo de servicio");
 		return;
 	}
-	if($("#Id_TS_Precio_"+idGrupoBebida).val() == null){
+	if($("#Id_TS_Precio_"+idGrupoBebida).val() == null || $("#Id_TS_Precio_"+idGrupoBebida).val() == "" ){
 		alert("Debe indicar al menos un precio");
 		return;
 	}
@@ -351,7 +351,7 @@ function AnadirTSGB(idGrupoBebida){
 }
 
 function ModificarTSGB(idGrupoBebida, idTipoServicio){
-	if($("#Id_"+idGrupoBebida+"_"+idTipoServicio+"_Precio").val() == null){
+	if($("#Id_"+idGrupoBebida+"_"+idTipoServicio+"_Precio").val() == null || $("#Id_"+idGrupoBebida+"_"+idTipoServicio+"_Precio").val() ==""){
 		alert("Debe indicar un precio, para poder modificarlo");
 		return;
 	}
@@ -382,7 +382,7 @@ function EliminarTSGB(idGrupoBebida, idTipoServicio){
 }
 
 function AnadirBebida(idGrupoBebida){
-	if($("#Id_Bebida_Nombre_"+idGrupoBebida).val() == null){
+	if($("#Id_Bebida_Nombre_"+idGrupoBebida).val() == null || $("#Id_Bebida_Nombre_"+idGrupoBebida).val() == ""){
 		alert("Debe introducir al menos el nombre de la bebida");
 		return;
 	}
@@ -398,7 +398,7 @@ function AnadirBebida(idGrupoBebida){
 }
 
 function ModificarBebida(idGrupoBebida, idBebida){
-	if($("#Id_Bebida_"+idBebida+"_Nombre").val() == null){
+	if($("#Id_Bebida_"+idBebida+"_Nombre").val() == null || $("#Id_Bebida_"+idBebida+"_Nombre").val() == ""){
 		alert("Debe introducir al menos el nombre de la bebida");
 		return;
 	}
