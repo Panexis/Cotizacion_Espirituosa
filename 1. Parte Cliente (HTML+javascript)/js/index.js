@@ -468,5 +468,5 @@ function ReiniciarBasedeDatos(){
 				return;
 				}
 			location.reload();
-		}
+		});
 }
