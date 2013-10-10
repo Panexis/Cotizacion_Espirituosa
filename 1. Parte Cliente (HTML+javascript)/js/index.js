@@ -459,3 +459,14 @@ function mostrarOcultarBebida(id){
 	);
 	 
 }
+
+function ReiniciarBasedeDatos(){
+	db.ReiniciarBaseDeDatos(
+		function(bExito,Mensaje){
+			if(!bExito){
+				alert(Mensaje);
+				return;
+				}
+			location.reload();
+		}
+}
