@@ -6,18 +6,18 @@ Autor Jose Angel Navarro
 var db = (function() {
 
 var database = null	
-,	arrTablas = [{ Tabla : 'Grupo_Bebidas', Indice : 'Id_G_Bebidas'
-								  , CreacionTabla : 'CREATE TABLE IF NOT EXISTS Grupo_Bebidas (	\
-														Id_G_Bebidas NUMERIC(3,0) PRIMARY KEY	\
+,	arrTablas = [{ Tabla : 'Grupos_Bebida', Indice : 'Id_G_Bebida'
+								  , CreacionTabla : 'CREATE TABLE IF NOT EXISTS Grupos_Bebida (	\
+														Id_G_Bebida NUMERIC(3,0) PRIMARY KEY	\
 													,	Nombre VARCHAR(150) UNIQUE	\
 													);' }
-				, {Tabla : 'Bebidas', Indice : 'Id_Bebidas'
+				, {Tabla : 'Bebidas', Indice : 'Id_Bebida'
 							, CreacionTabla : 'CREATE TABLE IF NOT EXISTS Bebidas (	\
 													Id_Bebida NUMERIC(3,0) PRIMARY KEY	\
-												,	Id_G_Bebidas NUMERIC(3,0) REFERENCES 	\
-														Grupo_Bebidas (Id_G_Bebida) ON DELETE SET NULL	\
+												,	Id_G_Bebida NUMERIC(3,0) REFERENCES 	\
+														Grupos_Bebida (Id_G_Bebida) ON DELETE SET NULL	\
 												, 	Nombre VARCHAR(150) UNIQUE	\
-												, 	Cantidad_Botella NUMERIC(5,0) NOT NULL	\
+												, 	Cantidad_Botella NUMERIC(5,0) NULL	\
 												, 	Cantidad_Stock NUMERIC(10,0) NULL	\
 												);' }
 				, {Tabla : 'Tipos_Servicio', Indice : 'Id_T_Servicio'
@@ -34,7 +34,7 @@ var database = null
 													, 	Fecha DATETIME NOT NULL	\
 													);' }
 				, {Tabla : 'Bebidas_Servicios', Indice : 'CONVERT(VARCHAR,Id_Servicio)+CONVERT(VARCHAR,Id_Bebida)'
-										, CreacionTabla: 'CREATE TABLE IF NOT EXISTS Bebida_Servicios (	\
+										, CreacionTabla: 'CREATE TABLE IF NOT EXISTS Bebidas_Servicios (	\
 															Id_Servicio NUMERIC(15,0) NOT NULL	\
 														,	Id_Bebida NUMERIC(3,0) NOT NULL	\
 														, 	PRIMARY KEY (Id_Servicio, Id_Bebida)	\
@@ -43,17 +43,17 @@ var database = null
 														, 	FOREIGN KEY (Id_Bebida) REFERENCES	\
 																Bebidas(Id_Bebida) ON DELETE SET NULL	\
 														);' }
-				, {Tabla : 'Precios', Indice: 'CONVERT(VARCHAR,Id_G_Bebidas)+CONVERT(VARCHAR,Id_T_Servicio)'
+				, {Tabla : 'Precios', Indice: 'CONVERT(VARCHAR,Id_G_Bebida)+CONVERT(VARCHAR,Id_T_Servicio)'
 								, CreacionTabla: 'CREATE TABLE IF NOT EXISTS Precios (	\
-													Id_G_Bebidas NUMERIC(3,0)  NULL	\
+													Id_G_Bebida NUMERIC(3,0)  NULL	\
 												,	Id_T_Servicio NUMERIC(3,0) NOT NULL	\
 												, 	Precio NUMERIC(5,2) NULL	\
 												, 	Maximo NUMERIC(5,2) NULL	\
 												,	Minimo NUMERIC(5,2) NULL	\
 												, 	Tramo NUMERIC(5,2) NULL	\
-												, 	PRIMARY KEY (Id_G_Bebidas, Id_T_Servicio)	\
-												, 	FOREIGN KEY (Id_G_Bebidas) REFERENCES	\
-														Grupo_Bebidas(Id_G_Bebidas) ON DELETE CASCADE	\
+												, 	PRIMARY KEY (Id_G_Bebida, Id_T_Servicio)	\
+												, 	FOREIGN KEY (Id_G_Bebida) REFERENCES	\
+														Grupos_Bebida(Id_G_Bebida) ON DELETE CASCADE	\
 												, 	FOREIGN KEY (Id_T_Servicio) REFERENCES	\
 														Tipos_Servicio(Id_T_Servicio) ON DELETE CASCADE	\
 												);'}
@@ -174,12 +174,12 @@ var database = null
 				} 
 			}
 		,	EjecutarSQL : ExecSQL
-		,	Grupo_Bebidas : { 
+		,	Grupos_Bebida : { 
 								ObtenerDatosTabla : function(EvObtenerResultados){
-									ObDatosTabla(arrTablas[Grupo_Bebidas], EvObtenerResultados);
+									ObDatosTabla(arrTablas[Grupos_Bebida], EvObtenerResultados);
 								}
 							,	ObtenerNuevoId : function(EvObtenerId){
-									ObNuevoId(arrTablas[Grupo_Bebidas], EvObtenerId);
+									ObNuevoId(arrTablas[Grupos_Bebida], EvObtenerId);
 								}			
 							}
 		,	Bebidas :{ 
@@ -208,10 +208,10 @@ var database = null
 							}
 		,	Bebidas_Servicios : { 
 								ObtenerDatosTabla : function(EvObtenerResultados){
-									ObDatosTabla(arrTablas[Bebida_Servicios], EvObtenerResultados);
+									ObDatosTabla(arrTablas[Bebidas_Servicios], EvObtenerResultados);
 								}
 							,	ObtenerNuevoId : function(EvObtenerId){
-									ObNuevoId(arrTablas[Bebida_Servicios], EvObtenerId);
+									ObNuevoId(arrTablas[Bebidas_Servicios], EvObtenerId);
 								}			
 							}
 		,	Precios : { 

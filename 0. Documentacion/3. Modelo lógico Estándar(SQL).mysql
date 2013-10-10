@@ -19,7 +19,7 @@ CREATE TABLE Bebidas (
 ,	Id_G_Bebidas NUMERIC(3,0) REFERENCES 
 Grupo_Bebidas (Id_G_Bebida) ON DELETE SET NULL
 , 	Nombre VARCHAR(150) UNIQUE
-, 	Cantidad_Botella NUMERIC(5,0) NOT NULL
+, 	Cantidad_Botella NUMERIC(5,0) NULL
 , 	Cantidad_Stock NUMERIC(10,0) NULL
 )ENGINE=InnoDB;
 

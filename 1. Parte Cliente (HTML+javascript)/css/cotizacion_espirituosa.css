@@ -51,6 +51,7 @@
 	-webkit-border-radius: 4px;
     -moz-border-radius: 4px;
           border-radius: 4px;
+	
 }
 .in_tabla caption{
 	font-size: 12pt;
@@ -67,10 +68,10 @@
 	margin: 0px;
 	padding: 20px;
 	
+	
 }
 
-.in_tabla thead{display: none;}
-.in_tabla tbody{display:none;}
+
 
 
 .numerico{

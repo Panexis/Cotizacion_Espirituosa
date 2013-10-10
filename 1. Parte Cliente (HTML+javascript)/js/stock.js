@@ -6,19 +6,40 @@ objeto donde se gestiona el stock
 */
 
 var stock = (function(){
-	var ObjetoGruposBebida = function(){
-		var idGruposBebida;
-		var Nombre; 
-		var Precios = []; //rowsArray de precios
-		var Bebidas = []; //rowsArray de bebidas
+	var listarPrecios = function (EvResultado){
+			db.EjecutarSQL("SELECT Tipos_Servicio.Id_T_Servicio, Tipos_Servicio.Nombre, Precio, Maximo, Minimo, Tramo FROM Precios LEFT JOIN Tipos_Servicio ON Tipos_Servicio.Id_T_Servicio = Precios.Id_T_Servicio WHERE Precios.Id_G_Bebida = "+this.idGrupoBebida+";"
+			, function(bExito, rowsArray){
+				if(!isUndefined(EvResultado))
+					EvResultado(bExito, rowsArray);
+			});
+		};
+	var listarBebidas = function (EvResultado){
+			db.EjecutarSQL("SELECT Id_Bebida, Nombre, Cantidad_Botella FROM Bebidas WHERE Id_G_Bebida = "+this.idGrupoBebida+";"
+			, function(bExito, rowsArray){
+				if(!isUndefined(EvResultado))
+					EvResultado(bExito, rowsArray);
+			});
+		};
+		
+	var CGrupoBebida = function(){
+		this.idGrupoBebida;
+		this.Nombre; 
+		//funciones
+		this.ListarPrecios = listarPrecios;
+		this.ListarBebidas = listarBebidas;
+
+
 	};
 	
 	return {
 	
 		MostrarStock : function(){
 		}
+	,	CrearCGrupoBebida : function(){
+			return new CGrupoBebida;
+		}
 	, 	ListarGruposBebida : function(EvObtResultados){
-			db.EjecutarSQL("SELECT Id_G_Bebidas, Nombre FROM Grupo_Bebidas;"
+			db.EjecutarSQL("SELECT Id_G_Bebida, Nombre FROM Grupos_Bebida;"
 			, function(bExito, rowsArray){
 				if(!bExito){
 					if(!isUndefined(EvObtResultados))
@@ -27,119 +48,77 @@ var stock = (function(){
 				}
 				ArrayGruposBebida = [];
 				for(var i = 0; i< rowsArray.length; i++){
-					ArrayGruposBebida[i] = oGruposBebida = new ObjetoGruposBebida();
-					oGruposBebida.idGruposBebida = rowsArray[i][0];
+					ArrayGruposBebida[i] = oGruposBebida = new CGrupoBebida();
+					oGruposBebida.idGrupoBebida = rowsArray[i][0];
 					oGruposBebida.Nombre = rowsArray[i][1];
 				}
-				var secuencia = -1;
-				//seleccionar los precios
-				var SelectPrecios = function(bExito, rowsArray_1){
-					if(secuencia > -1){
-						//comprobar bExito
-						if(!bExito){
-							if(!isUndefined(EvObtResultados))
-								EvObtResultados(false);
-							return;
-						}
-						ArrayGruposBebida[secuencia].Precios = rowsArray_1;
-					}
-					secuencia++;
-					if(secuencia == ArrayGruposBebida.length){
-						secuencia=-1;
-						SelectBebidas(true);
+				if(!isUndefined(EvObtResultados))
+					EvObtResultados(true, ArrayGruposBebida);
+			});
+		}
+	,	AnadirGrupoBebida : function(Nombre, EvResultado){
+			db.Grupos_Bebida.ObtenerNuevoId(function(id){
+				db.EjecutarSQL("INSERT INTO " + db.Tablas[Grupos_Bebida].Tabla + " VALUES("+id+",'"+Nombre+"')"
+				, function(bExito){
+					if(!isUndefined(EvResultado))
+						EvResultado(bExito, id);
+				});
+			});
+		}
+	,	ModificarGrupoBebida : function(idGrupoBebida, Nombre, EvResultado){
+			db.EjecutarSQL("UPDATE " + db.Tablas[Grupos_Bebida].Tabla + " SET Nombre='"+Nombre+"' WHERE Id_G_Bebida = "+idGrupoBebida+";"
+				,function(bExito){
+					if(!isUndefined(EvResultado))
+						EvResultado(bExito);
+				}
+			);
+		}
+	,	QuitarGrupoBebida : function(idGrupoBebida, EvResultado){
+			//primero eliminar las bebidas en discordia
+			db.EjecutarSQL("DELETE FROM " + db.Tablas[Bebidas].Tabla +" WHERE Id_G_Bebida = " + idGrupoBebida+";"
+				, function(bExito){
+					if(!bExito){
+						if(!isUndefined(EvResultado))
+							EvResultado(bExito);
 						return;
 					}
-					db.EjecutarSQL("SELECT Tipos_Servicio.Id_T_Servicio, Tipos_Servicio.Nombre, Precio, Maximo, Minimo, Tramo FROM Precios LEFT JOIN Tipos_Servicio ON Tipos_Servicio.Id_T_Servicio = Precios.Id_T_Servicio WHERE Precios.Id_G_Bebidas = "+ArrayGruposBebida[secuencia].idGruposBebida+";"
-					, function(bExito, rowsArray){ SelectPrecios(bExito, rowsArray) });
-					
-				};
-				//seleccionar las bebidas
-				var  SelectBebidas = function(bExito, rowsArray_2){
-					if(secuencia > -1){
-						//comprobar bExito
-						if(!bExito){
-							if(!isUndefined(EvObtResultados))
-								EvObtResultados(false);
-							return;
-						}
-						ArrayGruposBebida[secuencia].Bebidas = rowsArray_2;
-					}
-					secuencia++;
-					if(secuencia == ArrayGruposBebida.length){
-							if(!isUndefined(EvObtResultados))
-								EvObtResultados(true, ArrayGruposBebida);
-							return;
-					}
-					db.EjecutarSQL("SELECT Id_Bebida, Nombre, Cantidad_Botella FROM Bebidas WHERE Id_G_Bebidas = "+ArrayGruposBebida[secuencia].idGruposBebida+";"
-					,	function(bExito, rowsArray){
-							SelectBebidas(bExito, rowsArray);
+					db.EjecutarSQL("DELETE FROM " + db.Tablas[Grupos_Bebida].Tabla + " WHERE Id_G_Bebida = "+idGrupoBebida+";"
+					, 	function(bExito){
+							if(!isUndefined(EvResultado))
+								EvResultado(bExito);
 					});
-						
-				};
-				
-				SelectPrecios(true);
-
-			});
-		}
-	,	AnadirGruposBebida : function(Nombre){
-			db.Grupo_Bebidas.ObtenerNuevoId(function(id){
-				db.EjecutarSQL("INSERT INTO " + db.Tablas[Grupo_Bebidas].Tabla + " VALUES("+id+",'"+Nombre+"')"
-				, function(bExito){
-					if(!bExito){
-						//Indicar que no se ha podido añadir, si ha escrito el mismo nombre que un grupo ya existente
-						//alert('No se ha podido añadir el grupo de bebidas,\n comprueba que no esté ya en la lista.');
-						return;
-					} 
-					//añadir el div con el grupo de bebidas
-				});
-			});
-		}
-	,	ModificarGruposBebida : function(idGrupoBebida, Nombre){
-			db.EjecutarSQL("UPDATE " + db.Tablas[Grupo_Bebidas].Tabla + " SET Nombre='"+Nombre+"' WHERE Id_G_Bebidas = "+idGrupoBebida+";"
-				,function(bExito){
-					if(!bExito){
-						//Informar del error
-						return;
-					}
-					//modificación correcta.
 				}
 			);
 		}
-	,	QuitarGruposBebida : function(idGrupoBebida){
-			db.EjecutarSQL("DELETE FROM " + db.Tablas[Grupo_Bebidas].Tabla + "' WHERE Id_G_Bebidas = "+idGrupoBebida+";"
-				,function(bExito){
-					if(!bExito){
-						//Informar del error
-						return;
-					}
-					//modificación correcta.
-				}
-			);
-		}
-	,	AnadirBebida : function(idGrupoBebida, Nombre, CantidadxBotella){
+	,	AnadirBebida : function(idGrupoBebida, Nombre, CantidadxBotella, EvObtResultados){
 			db.Bebidas.ObtenerNuevoId(function(id){
-				db.EjecutarSQL("INSERT INTO " + db.Tablas[Bebidas].Tabla + "(Id_G_Bebidas, Id_Bebida, Nombre, Cantidad_Botella) VALUES("+idGrupoBebida+","+id+",'"+Nombre+"',"+CantidadxBotella+")"
+				if(!id){
+					if(!isUndefined(EvObtResultados))
+						EvObtResultados(false);
+					return;
+				}
+				db.EjecutarSQL("INSERT INTO " + db.Tablas[Bebidas].Tabla + "(Id_G_Bebida, Id_Bebida, Nombre, Cantidad_Botella) VALUES("+idGrupoBebida+","+id+",'"+Nombre+"',"+str_o_null(CantidadxBotella)+")"
 				, function(bExito){
-					if(!bExito){
-						//Indicar que no se ha podido añadir, si ha escrito el mismo nombre que un grupo ya existente
-						//alert('No se ha podido añadir el grupo de bebidas,\n comprueba que no esté ya en la lista.');
-						return;
-					} 
-					//añadir el div con el grupo de bebidas
+					if(!isUndefined(EvObtResultados))
+						EvObtResultados(bExito, id);
 				});
 			});
+		}
+	, 	ModificarBebida : function (idBebida, Nombre, CantidadxBotella, EvResultado){
+			db.EjecutarSQL("UPDATE " + db.Tablas[Bebidas].Tabla + " SET Nombre = '"+Nombre+"', Cantidad_Botella = "+str_o_null(CantidadxBotella)+" WHERE Id_Bebida = " + idBebida + ";"
+				, function(bExito){
+					if(!isUndefined(EvResultado))
+						EvResultado(bExito);
+				});
 		}
 	, 	MostrarStockBebida : function(idBebida){
 			
 		}
-	,	QuitarBebida : function(idBebida){
+	,	QuitarBebida : function(idBebida, EvtResultado){
 			db.EjecutarSQL("DELETE FROM " + db.Tablas[Bebidas].Tabla + "' WHERE IdBebidas = "+idBebida+";"
 				,function(bExito){
-					if(!bExito){
-						//Informar del error
-						return;
-					}
-					//modificación correcta.
+					if(!isUndefined(EvtResultado))
+						EvtResultado(bExito);
 				}
 			);
 		}
