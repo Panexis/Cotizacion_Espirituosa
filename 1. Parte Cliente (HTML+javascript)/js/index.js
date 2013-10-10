@@ -192,7 +192,6 @@ function MostrarGruposBebida(){
 				'<thead id="Id_HBebidas_'+ArrayGruposBebida[i].idGrupoBebida+'"><tr><th>Nombre</th><th>ml/Botella</th><th></th></tr></thead><tbody id="Sub_Tabla_Bebidas_'+ArrayGruposBebida[i].idGrupoBebida+'"></tbody></table></td></tr>'
 			);
 			//debo añadir una tabla con los tipos de servicios
-			alert(ArrayGruposBebida[i]);
 			MostrarPreciosGruposBebida(ArrayGruposBebida[i]);
 			MostrarBebidasGruposBebida(ArrayGruposBebida[i]);
 		}
@@ -206,6 +205,7 @@ function MostrarPreciosGruposBebida(oGrupoBebida){
 	oGrupoBebida.ListarPrecios(function(bExito, Precios){
 		if(!bExito)
 			return;
+			alert($("#Sub_Tabla_Precios_"+oGrupoBebida.idGrupoBebida));
 		$("#Sub_Tabla_Precios_"+oGrupoBebida.idGrupoBebida).html("");
 		for(var i = 0; i<Precios.length; i++)
 			$("#Sub_Tabla_Precios_"+oGrupoBebida.idGrupoBebida).append('<tr> '+
