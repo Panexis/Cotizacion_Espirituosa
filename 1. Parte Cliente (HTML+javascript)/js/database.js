@@ -87,7 +87,7 @@ var database = null
 									console.log('Error: '+error.message+'\nCode: '+error.code);
 								}
 								if(!isUndefined(ObResultados))
-									ObResultados(false, null, null);
+									ObResultados(false, 'Error: '+error.message+'\nCode: '+error.code , null);
 									
 								return false;
 							}
@@ -123,11 +123,26 @@ var database = null
 			}
 		});
 	}
+,	BorrarTablas = function(EvResultado){
+		if(!database){
+			console.log('Error: no se ha cargado ninguna base de datos');
+			if(!isUndefined(EvResultado))
+				EvResultado(false, "Error: no se ha cargado ninguna base de datos", null);
+			return;
+		}
+		database.transaction(function(tx){
+			var oResultado = new Resultado();
+			oResultado.ObtenerResultados(EvResultado);
+			for(var t = 0; t < arrTablas.length; t++){
+				tx.executeSql(" DROP TABLE " + arrTablas[t].Tabla+";",[], oResultado.SqlExito, oResultado.SqlError);
+			}
+		});
+	}
 ,	ExecSQL = function(/* Comando SQL */cmdSQL,/* evento resultante */ EvObtenerResultados){
 		if(!database){
 			console.log('Error: no se ha cargado ninguna base de datos');
 			if(!isUndefined(EvObtenerResultados))
-				EvObtenerResultados(false, null, null);
+				EvObtenerResultados(false, "Error: no se ha cargado ninguna base de datos", null);
 			return;
 		}
 
@@ -173,6 +188,15 @@ var database = null
 					return;
 				} 
 			}
+		, 	ReiniciarBaseDeDatos : function (EvResultado){
+				BorrarTablas( function(bExito, Mensaje){
+					if(bExito){
+						crearTablas();
+					}
+					if(!isUndefined(EvResultado))
+						EvResultado(bExito, Mensaje);
+				});
+			}		
 		,	EjecutarSQL : ExecSQL
 		,	Grupos_Bebida : { 
 								ObtenerDatosTabla : function(EvObtenerResultados){

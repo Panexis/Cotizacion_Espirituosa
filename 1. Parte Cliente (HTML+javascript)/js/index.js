@@ -32,6 +32,7 @@ function MostrarTiposServicio(){
 	servicios.ListarTiposServicios(
 		function(bExito, rowsArray){
 			if(!bExito){
+				alert(rowsArray);
 				return;
 			}
 			ArrayTiposServicio = rowsArray;
@@ -205,7 +206,6 @@ function MostrarPreciosGruposBebida(oGrupoBebida){
 	oGrupoBebida.ListarPrecios(function(bExito, Precios){
 		if(!bExito)
 			return;
-			alert($("#Sub_Tabla_Precios_"+oGrupoBebida.idGrupoBebida));
 		$("#Sub_Tabla_Precios_"+oGrupoBebida.idGrupoBebida).html("");
 		for(var i = 0; i<Precios.length; i++)
 			$("#Sub_Tabla_Precios_"+oGrupoBebida.idGrupoBebida).append('<tr> '+
@@ -295,23 +295,23 @@ function AnadirGrupoBebida(){
 					'<td class="boton" ><a class="btn AddGB" onClick="AnadirGrupoBebida()" href="javascript:void(0)"><i class="icon-plus"></i> </a></td> </tr>');
 				}
 			else
-				alert("No se ha podido realizar esta operación");
+				alert(id);
 		});
 }
 
 function ModificarGrupoBebida(idGrupoBebida){
 	stock.ModificarGrupoBebida(idGrupoBebida, $("Id_'"+idGrupoBebida+"_Nombre").val()
-		, function(bExito){
+		, function(bExito, Mensaje){
 			if(!bExito)
-				alert("No se ha podido realizar la modificación");
+				alert(Mensaje);
 		});
 }
 
 function EliminarGrupoBebida(idGrupoBebida){
 	stock.QuitarGrupoBebida(idGrupoBebida
-		, function(bExito){
+		, function(bExito, Mensaje){
 			if(!bExito){
-				alert("No se ha podido realizar la operación");
+				alert(Mensaje);
 				return;
 			}
 			$("#TR_"+idGrupoBebida).remove();
@@ -341,11 +341,11 @@ function AnadirTSGB(idGrupoBebida){
 	
 	//añadimos la cotizacion
 	cotizacion.AnadirPrecio(idGrupoBebida, $("#Id_TS_ID_"+idGrupoBebida).val(), $("#Id_TS_Precio_"+idGrupoBebida).val(),$("#Id_TS_Maximo_"+idGrupoBebida).val(),$("#Id_TS_Minimo_"+idGrupoBebida).val(),$("#Id_TS_Tramo_"+idGrupoBebida).val()
-		, function(bExito){
+		, function(bExito, Mensaje){
 			if(bExito)
 				MostrarPreciosGruposBebida(obtGrupoBebida(idGrupoBebida));
 			else
-				alert("No se ha podido realizar esta operación");
+				alert(Mensaje);
 		});
 
 }
@@ -357,9 +357,9 @@ function ModificarTSGB(idGrupoBebida, idTipoServicio){
 	}
 	
 	cotizacion.ModificarPrecioxGrupoBebida(idGrupoBebida, idTipoServicio, $("#Id_"+idGrupoBebida+"_"+idTipoServicio+"_Nombre").val(),$("#Id_"+idGrupoBebida+"_"+idTipoServicio+"_Precio").val(), $("#Id_"+idGrupoBebida+"_"+idTipoServicio+"_Maximo").val(), $("#Id_"+idGrupoBebida+"_"+idTipoServicio+"_Minimo").val(), $("#Id_"+idGrupoBebida+"_"+idTipoServicio+"_Tramo").val()
-		, function(bExito){
+		, function(bExito, Mensaje){
 			if(!bExito){
-				alert("No se ha podido realizar la modificación");
+				alert(Mensaje);
 				return;
 			}
 			
@@ -392,7 +392,7 @@ function AnadirBebida(idGrupoBebida){
 			if(bExito)
 				MostrarBebidasGruposBebida(obtGrupoBebida(idGrupoBebida));
 			else
-				alert("No se ha podido realizar esta operación");
+				alert(id);
 
 		});
 }
@@ -404,22 +404,22 @@ function ModificarBebida(idGrupoBebida, idBebida){
 	}
 	
 	stock.ModificarBebida(idBebida, $("#Id_Bebida_"+idBebida+"_Nombre").val(), $("#Id_Bebida_"+idBebida+"_Cantidad_Botella").val()
-		, function(bExito){
+		, function(bExito, Mensaje){
 			if(bExito)
 				MostrarBebidasGruposBebida(obtGrupoBebida(idGrupoBebida));
 			else
-				alert("No se ha podido realizar esta operación");
+				alert(Mensaje);
 		});
 }
 
 function EliminarBebida(idGrupoBebida, idBebida){
 	
 	stock.QuitarBebida(idBebida
-		, function(bExito){
+		, function(bExito, Mensaje){
 			if(bExito)
 				MostrarBebidasGruposBebida(obtGrupoBebida(idGrupoBebida));
 			else
-				alert("No se ha podido realizar esta operación");
+				alert(Mensaje);
 		});
 }
 

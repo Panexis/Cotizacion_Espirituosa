@@ -43,7 +43,7 @@ var stock = (function(){
 			, function(bExito, rowsArray){
 				if(!bExito){
 					if(!isUndefined(EvObtResultados))
-						EvObtResultados(false);
+						EvObtResultados(false, rowsArray);
 					return;
 				}
 				ArrayGruposBebida = [];
@@ -58,34 +58,39 @@ var stock = (function(){
 		}
 	,	AnadirGrupoBebida : function(Nombre, EvResultado){
 			db.Grupos_Bebida.ObtenerNuevoId(function(id){
-				db.EjecutarSQL("INSERT INTO " + db.Tablas[Grupos_Bebida].Tabla + " VALUES("+id+",'"+Nombre+"')"
-				, function(bExito){
+				if(!id){
 					if(!isUndefined(EvResultado))
-						EvResultado(bExito, id);
+						EvResultado(false, "No se ha podido incrementar el índice de Bebidas");
+					return;
+				}
+				db.EjecutarSQL("INSERT INTO " + db.Tablas[Grupos_Bebida].Tabla + " VALUES("+id+",'"+Nombre+"')"
+				, function(bExito, Mensaje){
+					if(!isUndefined(EvResultado, Mensaje))
+						EvResultado(bExito, bExito ? id : Mensaje);
 				});
 			});
 		}
 	,	ModificarGrupoBebida : function(idGrupoBebida, Nombre, EvResultado){
 			db.EjecutarSQL("UPDATE " + db.Tablas[Grupos_Bebida].Tabla + " SET Nombre='"+Nombre+"' WHERE Id_G_Bebida = "+idGrupoBebida+";"
-				,function(bExito){
+				,function(bExito, Mensaje){
 					if(!isUndefined(EvResultado))
-						EvResultado(bExito);
+						EvResultado(bExito, Mensaje);
 				}
 			);
 		}
 	,	QuitarGrupoBebida : function(idGrupoBebida, EvResultado){
 			//primero eliminar las bebidas en discordia
 			db.EjecutarSQL("DELETE FROM " + db.Tablas[Bebidas].Tabla +" WHERE Id_G_Bebida = " + idGrupoBebida+";"
-				, function(bExito){
+				, function(bExito, Mensaje){
 					if(!bExito){
 						if(!isUndefined(EvResultado))
-							EvResultado(bExito);
+							EvResultado(bExito, Mensaje);
 						return;
 					}
 					db.EjecutarSQL("DELETE FROM " + db.Tablas[Grupos_Bebida].Tabla + " WHERE Id_G_Bebida = "+idGrupoBebida+";"
-					, 	function(bExito){
+					, 	function(bExito, Mensaje){
 							if(!isUndefined(EvResultado))
-								EvResultado(bExito);
+								EvResultado(bExito, Mensaje);
 					});
 				}
 			);
@@ -94,21 +99,21 @@ var stock = (function(){
 			db.Bebidas.ObtenerNuevoId(function(id){
 				if(!id){
 					if(!isUndefined(EvObtResultados))
-						EvObtResultados(false);
+						EvObtResultados(false, "No se ha podido incrementar el índice de Bebidas");
 					return;
 				}
 				db.EjecutarSQL("INSERT INTO " + db.Tablas[Bebidas].Tabla + "(Id_G_Bebida, Id_Bebida, Nombre, Cantidad_Botella) VALUES("+idGrupoBebida+","+id+",'"+Nombre+"',"+str_o_null(CantidadxBotella)+")"
-				, function(bExito){
+				, function(bExito, Mensaje){
 					if(!isUndefined(EvObtResultados))
-						EvObtResultados(bExito, id);
+						EvObtResultados(bExito, bExito ? id : Mensaje);
 				});
 			});
 		}
 	, 	ModificarBebida : function (idBebida, Nombre, CantidadxBotella, EvResultado){
 			db.EjecutarSQL("UPDATE " + db.Tablas[Bebidas].Tabla + " SET Nombre = '"+Nombre+"', Cantidad_Botella = "+str_o_null(CantidadxBotella)+" WHERE Id_Bebida = " + idBebida + ";"
-				, function(bExito){
+				, function(bExito, Mensaje){
 					if(!isUndefined(EvResultado))
-						EvResultado(bExito);
+						EvResultado(bExito, Mensaje);
 				});
 		}
 	, 	MostrarStockBebida : function(idBebida){
@@ -116,9 +121,9 @@ var stock = (function(){
 		}
 	,	QuitarBebida : function(idBebida, EvtResultado){
 			db.EjecutarSQL("DELETE FROM " + db.Tablas[Bebidas].Tabla + "' WHERE IdBebidas = "+idBebida+";"
-				,function(bExito){
+				,function(bExito, Mensaje){
 					if(!isUndefined(EvtResultado))
-						EvtResultado(bExito);
+						EvtResultado(bExito, Mensaje);
 				}
 			);
 		}
